@@ -1,0 +1,18 @@
+hmk_01
+================
+murray stokes
+
+## hmk_01 - a Quarto Document
+
+I have assigned numerical values to letters “a” and “b”
+
+The sum of these letters’ values is determined by running the code
+below.
+
+``` r
+a <- 3
+b <- 2
+a + b
+```
+
+    [1] 5
