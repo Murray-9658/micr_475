@@ -1,0 +1,49 @@
+---
+title: "hmk_02"
+author: "murray stokes"
+format: gfm
+editor: visual
+---
+
+### Load tidyverse and suppress its message
+
+```{r message = FALSE}
+library(tidyverse)
+```
+
+### Assign values to objects "a" and "b"
+
+```{r}
+a <- 4/9
+b <- 4/11
+```
+
+### Determine if a is less than b
+
+```{r}
+a > b
+```
+
+### List objects in environment
+
+```{r}
+ls()
+```
+
+### Remove objects from environment
+
+```{r}
+rm(list = ls())
+```
+
+### List objects in environment
+
+```{r}
+ls()
+```
+
+### Display loaded pacakges
+
+```{r}
+search()
+```
