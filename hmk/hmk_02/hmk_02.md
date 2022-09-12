@@ -37,6 +37,14 @@ ls()
 rm(list = ls())
 ```
 
+The syntax for clearing the environment is structured in this “weird”
+way because the first argument that is “seen” by rm(), is “…” rather
+than “list”. If “list” was the first (default) argument, then simply
+typing rm(ls()) would be sufficient in clearing the environment. Because
+of this, we must indicate to rm() that we would like it to use the list
+argument to name the objects to remove ( the objects in our
+environment).
+
 ### List objects in environment
 
 ``` r
@@ -45,7 +53,7 @@ ls()
 
     character(0)
 
-### Display loaded pacakges
+### Display loaded packages
 
 ``` r
 search()
@@ -58,3 +66,7 @@ search()
     [13] "package:graphics"  "package:grDevices" "package:utils"    
     [16] "package:datasets"  "package:methods"   "Autoloads"        
     [19] "package:base"     
+
+This search function shows the order that R finds objects.
+
+For example, R will look in .GlobalEnv, before tools:rstudio
