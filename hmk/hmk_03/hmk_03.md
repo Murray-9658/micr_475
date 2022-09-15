@@ -12,7 +12,7 @@ library(tidyverse)
 # Data input/output
 
 I created an Excel sheet containing the brand, color, and price of
-drills. I then converted this sheet to a .csv file so that I can be
+drills. I then converted this sheet to a .csv file so that it can be
 analyzed in RStudio.
 
 Using the read_csv function and assigning it to the object “drills” I
