@@ -123,9 +123,13 @@ ggplot(data = stdcurve_3, aes(x = mub_std_conc_uM, y = mub_area)) + geom_point(c
   geom_smooth(method = "lm", se = FALSE, color = 'blue')
 ```
 
+"xlim" sets the limits of the x axis to the described range of (0, 100)
+
 "se" in geom_smooth stands for standard error, and if this value was set to true, we could see a grey hue indicating the confidence interval of this line.
 
 ```{r}
-ggplot(data = stdcurve_3, aes(x = mub_std_conc_uM, y = mub_area)) + geom_point(color = 'red') +
-  geom_smooth(method = "lm", se = TRUE, color = 'blue')
+ggplot(data = stdcurve_3, aes(x = mub_std_conc_uM, y = mub_area)) + 
+  geom_point(color = 'red') + 
+  xlim(c(0, 100)) +
+  geom_smooth(method = "lm", se = TRUE, color = 'blue') 
 ```
