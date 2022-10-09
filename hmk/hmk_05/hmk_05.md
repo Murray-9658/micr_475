@@ -64,6 +64,18 @@ ggplot(lga_16_2000_na, aes(x = distance, y = air_time, )) +
 
 ![](hmk_05_files/figure-gfm/unnamed-chunk-5-1.png)
 
+## Question 2.1:
+
+I don’t think that
+`dep_arr_times <- filter(flights, arr_time & dep_time)` actually removes
+NAs because without adding `na.rm` to `geom_point` the NAs persist.
+
+It might work because `&` inputs 2 logical values and outputs a logical
+value, and if we `filter()` using `&` then only values that are true
+will be filtered through???
+
+This is my best guess and I will ask Drew tomorrow after class.
+
 # Question 3: adding columns
 
 Create a data frame of average flight speeds, based on `air_time` and
