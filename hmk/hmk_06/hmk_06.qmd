@@ -14,7 +14,7 @@ library(tidyverse)
 Creating data frame and assigning it to object `bad_plot_df`
 
 ```{r}
-bad_plot_df <- read_csv("badplot.csv", 
+bad_plot_df <- read_csv("badplot_v2.csv", 
                         show_col_types = FALSE, 
                         col_names = c("Color", "Cost") 
 )
@@ -32,7 +32,7 @@ ggplot(bad_plot_df, aes(x="Color", y="Cost", fill=Cost)) +
     coord_polar("y", start=0) +
   xlab(label = "Color") + ylab(label = "Cost of Color") +
   ggtitle(label = "Cost for Colors of Blue") +
-    theme(legend.key.width = unit(9, 'cm')) +
+    theme(legend.key.width = unit(6, 'cm')) +
   theme(legend.key.height = unit(0.15, 'cm'))
 
 
