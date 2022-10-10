@@ -26,9 +26,6 @@ makes it circular.
 Various theme functions are also used to make this plot as terrible as
 possible
 
-`gg_save` is used to save the file type/name, set pixel density, and
-dimensions of image.
-
 ``` r
 ggplot(bad_plot_df, aes(x="Color", y="Cost", fill=Cost)) +
   geom_bar(stat="identity", width=1, color="light green") +
@@ -42,6 +39,7 @@ ggplot(bad_plot_df, aes(x="Color", y="Cost", fill=Cost)) +
 ![](hmk_06_files/figure-gfm/unnamed-chunk-3-1.png)
 
 ``` r
+# gg_save is used to save the file type/name, set pixel density, and dimensions of image.
 ggsave("bad_plot.png", dpi=300, height = 8, width = 11, units = "in")
 ```
 

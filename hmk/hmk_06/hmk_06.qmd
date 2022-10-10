@@ -26,8 +26,6 @@ Because ggplot reaaaaalllyy does not want you to make a pie chart, there is not 
 
 Various theme functions are also used to make this plot as terrible as possible
 
-`gg_save` is used to save the file type/name, set pixel density, and dimensions of image.
-
 ```{r}
 ggplot(bad_plot_df, aes(x="Color", y="Cost", fill=Cost)) +
   geom_bar(stat="identity", width=1, color="light green") +
@@ -37,6 +35,8 @@ ggplot(bad_plot_df, aes(x="Color", y="Cost", fill=Cost)) +
     theme(legend.key.width = unit(9, 'cm')) +
   theme(legend.key.height = unit(0.15, 'cm'))
 
+
+# gg_save is used to save the file type/name, set pixel density, and dimensions of image.
 ggsave("bad_plot.png", dpi=300, height = 8, width = 11, units = "in")
 ```
 
