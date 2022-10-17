@@ -1,4 +1,4 @@
-hmk_6
+hmk_7
 ================
 Murray Stokes
 
@@ -97,7 +97,7 @@ ggplot(possible_diamonds, aes(x = carat, y = price)) +
   geom_boxplot(aes(group = cut_number(carat, 10)))
 ```
 
-![](hmk_06_files/figure-gfm/unnamed-chunk-9-1.png)
+![](hmk_07_files/figure-gfm/unnamed-chunk-9-1.png)
 
 It appears that a few rather heavy diamonds are taking up a lot of room
 on the plot.
@@ -113,7 +113,7 @@ ggplot(smaller_possible_diamonds, aes(x = carat, y = price)) +
   geom_boxplot(aes(group = cut_number(carat, 10)))
 ```
 
-![](hmk_06_files/figure-gfm/unnamed-chunk-11-1.png)
+![](hmk_07_files/figure-gfm/unnamed-chunk-11-1.png)
 
 ## Exercise 3: How does the price distribution of very large diamonds compare to small diamonds? Is it as you expect, or does it surprise you?
 
@@ -179,7 +179,7 @@ ggplot(diamonds, aes(x = price)) +
   geom_histogram(binwidth = 100)
 ```
 
-![](hmk_06_files/figure-gfm/unnamed-chunk-16-1.png)
+![](hmk_07_files/figure-gfm/unnamed-chunk-16-1.png)
 
 There are many more “cheaper” diamonds than expensive diamonds. Most
 diamonds are under \$5000. Price seems to increase inversely to the

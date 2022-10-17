@@ -1,5 +1,5 @@
 ---
-title: "hmk_6"
+title: "hmk_7"
 format: gfm
 author: Murray Stokes
 editor: visual
@@ -68,14 +68,15 @@ str_sort(possible_diamonds$z, numeric = TRUE)
 
 ## Exercise 2: Visualise the distribution of carat, partitioned by price.
 
-
 ```{r}
 ggplot(possible_diamonds, aes(x = carat, y = price)) + 
   geom_boxplot(aes(group = cut_number(carat, 10)))
 ```
+
 It appears that a few rather heavy diamonds are taking up a lot of room on the plot.
 
-I will filter for diamonds of carat < 1.5
+I will filter for diamonds of carat \< 1.5
+
 ```{r}
 smaller_possible_diamonds <- filter(possible_diamonds, carat < 1.5)
 ```
@@ -84,26 +85,26 @@ smaller_possible_diamonds <- filter(possible_diamonds, carat < 1.5)
 ggplot(smaller_possible_diamonds, aes(x = carat, y = price)) + 
   geom_boxplot(aes(group = cut_number(carat, 10)))
 ```
+
 ## Exercise 3: How does the price distribution of very large diamonds compare to small diamonds? Is it as you expect, or does it surprise you?
 
-
 Below I filter for diamonds of carats between 0.75 and 1.5. These are `medium_diamonds`
+
 ```{r}
 medium_diamonds <- filter(possible_diamonds, between(carat, 0.75, 1.5))
 
 length(medium_diamonds$carat)
 ```
 
-Here I filter for diamonds of carat greater than 1.5. These are `large_diamonds` 
+Here I filter for diamonds of carat greater than 1.5. These are `large_diamonds`
+
 ```{r}
 large_diamonds <-filter(possible_diamonds, carat > 1.5)
 
 length(large_diamonds$carat)
 ```
 
-We see that there are much fewer large diamonds than medium diamonds. This disparity in count can result in greater variation in prices. 
-(Less supply so merchants can get away with different prices compared to market average across a large number of evenly priced diamonds)
-
+We see that there are much fewer large diamonds than medium diamonds. This disparity in count can result in greater variation in prices. (Less supply so merchants can get away with different prices compared to market average across a large number of evenly priced diamonds)
 
 ## Exercise 4: How many diamonds are 0.99 carat? How many are 1 carat? What do you think is the cause of the difference? (7.3.4)
 
@@ -113,21 +114,23 @@ Below I filter for diamonds of 0.99 carat and determine how many exist.
 diamonds_0.99 <- filter(diamonds, carat == 0.99)
 length(diamonds_0.99$carat)
 ```
+
 Here I filter for diamonds of 1.0 carat and determine how many exist.
+
 ```{r}
 diamonds_1 <- filter(diamonds, carat == 1)
 length(diamonds_1$carat)
 ```
+
 There are many more diamonds of 1 carat than diamonds of .99 carat. I believe this disparity exists because people would rather pay for a whole carat diamond. Merchants realize this and can get away with rounding up to 1.0 to charge more to their non gemologist patrons.
-
-
-
 
 ## Exercise 5: Explore the distribution of price. Do you discover anything unusual or surprising? (Hint: Carefully think about the binwidth and make sure you try a wide range of values.) (7.3.4)
 
 Below is a histogram portraying the number of diamonds at each price. I used binwidth = 100 to combine diamonds of similar price in bins of 100.
+
 ```{r}
 ggplot(diamonds, aes(x = price)) +
   geom_histogram(binwidth = 100)
 ```
-There are many more "cheaper" diamonds than expensive diamonds. Most diamonds are under $5000. Price seems to increase inversely to the number of diamonds.
+
+There are many more "cheaper" diamonds than expensive diamonds. Most diamonds are under \$5000. Price seems to increase inversely to the number of diamonds.
