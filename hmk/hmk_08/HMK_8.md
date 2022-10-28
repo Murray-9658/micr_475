@@ -110,20 +110,29 @@ relig_income <- relig_income
 ``` r
 # using pivot longer and the dplyer::select notation to pivot multiple columns
 relig_income_tidy <- relig_income %>% 
-  pivot_longer(c("<$10k":"Don't know/refused"),
-               names_to = "income range", 
-               values_to = "count") 
+  pivot_longer(!religion, names_to = "income", values_to = "count")  %>%
+  group_by(religion)
+
+relig_income_tidy$income <- factor(relig_income_tidy$income,
+ levels = c("<$10k", "$10-20k", "$20-30k", "$30-40k", "$40-50k", "$50-75k", "$75-100k", "$100-150k", ">150k", "Don't know/refused"))
 ```
 
-I need help making a plot appropriate for this data frame.
-
 ``` r
-ggplot(relig_income_tidy, 
-       aes(x = count, fill=religion)) +
-       geom_bar()
+ggplot(relig_income_tidy, aes(x = income, y = count, fill = religion)) +
+  geom_col() +
+  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
+  labs(x = "income range", y = "count", fill = "religion") +
+  guides(fill = guide_legend(ncol=4)) +
+  ggtitle("Religions vs Income Range") +
+  theme(legend.position = "bottom", legend.key.size = unit(0.8, "lines"))
 ```
 
 ![](HMK_8_files/figure-gfm/unnamed-chunk-8-1.png)
+
+``` r
+# I used `theme_update(plot.title = element_text(hjust = 0.5))` in the 
+# command line so future plots will have a centered title.
+```
 
 # Q3: merging
 
@@ -166,33 +175,33 @@ If you want, you can use the `lm()` function to make a linear model of
 departure delay as a function of wind speed. But it is also fine to just
 make a plot of the two variables with `geom_smooth()`.
 
-Below I extract the first digit of the hour by dividing each input
-number by 10 raised to the floor of log base 10. (I absolutely found
-this solution online and I am working to understand it better so I can
-implement it in future work)
-
 ``` r
-get_first <- function(x) {
-  floor(x / (10 ^ floor(log10(x))))
-}
-```
+# assinging datasets to objects for ease of access
+f <- flights
+w <- weather
 
-``` r
-flights_grouped <- select(flights, year, month, day, sched_dep_time, dep_time, dep_delay)
-
-flights_filtered <- filter(flights_grouped, dep_delay > 0)
-
-flights_singledig_time <- flights_filtered %>%
-  mutate(first_digit_dep_time = get_first(sched_dep_time))
+# dividing `dep_time` by 100 using integer division
+f <- f %>%
+  mutate(f, hour = dep_time %/% 100) %>%
+  select(origin, year, month, day, hour, dep_delay)
 ```
 
 ``` r
 weather_grouped <- select(weather, year, month, day, hour, wind_speed)
 ```
 
-Will fix the below code after class
+``` r
+wf <- weather_grouped %>%
+left_join(f, weather_grouped, by = c("year", "month", "day", "hour"))
+```
 
 ``` r
-#weather_grouped %>%
-#inner_join(weather_grouped, flights_singledig_time, by = c("hour" = "first_digit_dep_time"))
+ggplot(wf, aes(x = wind_speed, y = dep_delay)) +
+  geom_smooth(method = "lm")
 ```
+
+    `geom_smooth()` using formula 'y ~ x'
+
+    Warning: Removed 3651 rows containing non-finite values (stat_smooth).
+
+![](HMK_8_files/figure-gfm/unnamed-chunk-12-1.png)
