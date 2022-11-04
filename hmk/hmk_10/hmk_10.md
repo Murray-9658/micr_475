@@ -93,9 +93,47 @@ A few questions to consider:
     numeric columns of *any* data frame. This function should be able to
     accept data frames with non-numeric columns.
 
+    ``` r
+    diamonds <- diamonds
+
+    mean_of_numeric_columns <- function(df) {
+
+    # selecting for numeric columns from the df  
+    df_filt <- select(df, is.numeric)
+
+    mean_of_col <- vector("double", ncol(df_filt))  
+    for (i in seq_along(df_filt)) {
+      mean_of_col[[i]] <- mean(df_filt[[i]])
+    } 
+    mean_of_col
+    }
+
+    mean_of_numeric_columns(diamonds)
+    ```
+
+        Warning: Predicate functions must be wrapped in `where()`.
+
+          # Bad
+          data %>% select(is.numeric)
+
+          # Good
+          data %>% select(where(is.numeric))
+
+        ℹ Please update your code.
+        This message is displayed once per session.
+
+        [1]    0.7979397   61.7494049   57.4571839 3932.7997219    5.7311572
+        [6]    5.7345260    3.5387338
+
 ## Why not loops
 
 In R, we generally encourage people to use vectorized functions instead
 of `for` loops. According to [your
 textbook](https://r4ds.had.co.nz/iteration.html), what is better about
 vectorized functions?
+
+Vectorized functions are better because they reduce duplication of code
+(and thus its length) which reduces proneness of errors. A key advantage
+of vectorized functions is the ability to generalize your code to work,
+so you are spending less time rewriting code to fit for certain data
+frames.
