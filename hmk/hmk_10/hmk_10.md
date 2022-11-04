@@ -98,7 +98,9 @@ A few questions to consider:
     accept data frames with non-numeric columns.
 
     ``` r
-    # I get a warning telling me to use `where` when I select, but it still works correctly. Apparently just bad practice, and when I use `where` the function can't be found even though it seems to be part of dplyr
+    # I get a warning telling me to use `where` when I select, but it still
+    # works correctly. Apparently just bad practice, and when I use `where` 
+    # the function can't be found even though it seems to be part of dplyr
     suppressWarnings({
 
     diamonds <- diamonds
