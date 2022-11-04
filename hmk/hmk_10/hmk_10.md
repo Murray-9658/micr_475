@@ -87,7 +87,11 @@ A few questions to consider:
     for (i in seq_along(mtcars)) {            
       mean_of_each_mtcars_column[[i]] <- mean(mtcars[[i]])      
     }
+    mean_of_each_mtcars_column
     ```
+
+         [1]  20.090625   6.187500 230.721875 146.687500   3.596563   3.217250
+         [7]  17.848750   0.437500   0.406250   3.687500   2.812500
 
 -   Write a function (using a for loop) that calculates the mean of all
     numeric columns of *any* data frame. This function should be able to

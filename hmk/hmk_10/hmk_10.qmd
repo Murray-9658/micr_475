@@ -68,11 +68,12 @@ A few questions to consider:
     for (i in seq_along(mtcars)) {            
       mean_of_each_mtcars_column[[i]] <- mean(mtcars[[i]])      
     }
+    mean_of_each_mtcars_column
     ```
 
 -   Write a function (using a for loop) that calculates the mean of all numeric columns of *any* data frame. This function should be able to accept data frames with non-numeric columns.
 
-    ```{r}
+    ```{r message = FALSE}
     diamonds <- diamonds
 
     mean_of_numeric_columns <- function(df) {
