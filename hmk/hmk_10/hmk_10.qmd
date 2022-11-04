@@ -73,13 +73,16 @@ A few questions to consider:
 
 -   Write a function (using a for loop) that calculates the mean of all numeric columns of *any* data frame. This function should be able to accept data frames with non-numeric columns.
 
-    ```{r silent = TRUE}
+    ```{r}
+    # I get a warning telling me to use `where` when I select, but it still works correctly. Apparently just bad practice, and when I use `where` the function can't be found even though it seems to be part of dplyr
+    suppressWarnings({
+
     diamonds <- diamonds
 
     mean_of_numeric_columns <- function(df) {
 
     # selecting for numeric columns from the df  
-        df_filt <- (select(df, is.numeric))
+       df_filt <- (select(df, is.numeric))
 
     mean_of_col <- vector("double", ncol(df_filt))  
     for (i in seq_along(df_filt)) {
@@ -89,6 +92,7 @@ A few questions to consider:
     }
 
     mean_of_numeric_columns(diamonds)
+    })
     ```
 
 ## Why not loops
