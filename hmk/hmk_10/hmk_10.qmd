@@ -73,13 +73,13 @@ A few questions to consider:
 
 -   Write a function (using a for loop) that calculates the mean of all numeric columns of *any* data frame. This function should be able to accept data frames with non-numeric columns.
 
-    ```{r message = FALSE}
+    ```{r silent = TRUE}
     diamonds <- diamonds
 
     mean_of_numeric_columns <- function(df) {
 
     # selecting for numeric columns from the df  
-    df_filt <- select(df, is.numeric)
+        df_filt <- (select(df, is.numeric))
 
     mean_of_col <- vector("double", ncol(df_filt))  
     for (i in seq_along(df_filt)) {

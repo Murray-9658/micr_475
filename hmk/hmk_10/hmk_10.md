@@ -103,7 +103,7 @@ A few questions to consider:
     mean_of_numeric_columns <- function(df) {
 
     # selecting for numeric columns from the df  
-    df_filt <- select(df, is.numeric)
+        df_filt <- (select(df, is.numeric))
 
     mean_of_col <- vector("double", ncol(df_filt))  
     for (i in seq_along(df_filt)) {
