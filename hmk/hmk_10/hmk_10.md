@@ -101,7 +101,7 @@ A few questions to consider:
     # I get a warning telling me to use `where` when I select, but it still
     # works correctly. Apparently just bad practice, and when I use `where` 
     # the function can't be found even though it seems to be part of dplyr
-    suppressWarnings({
+
 
     diamonds <- diamonds
 
@@ -118,8 +118,18 @@ A few questions to consider:
     }
 
     mean_of_numeric_columns(diamonds)
-    })
     ```
+
+        Warning: Predicate functions must be wrapped in `where()`.
+
+          # Bad
+          data %>% select(is.numeric)
+
+          # Good
+          data %>% select(where(is.numeric))
+
+        ℹ Please update your code.
+        This message is displayed once per session.
 
         [1]    0.7979397   61.7494049   57.4571839 3932.7997219    5.7311572
         [6]    5.7345260    3.5387338
