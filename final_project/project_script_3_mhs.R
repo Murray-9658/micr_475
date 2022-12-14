@@ -24,7 +24,6 @@ quench_fxn <- function(df) {
 }
 
 # Emission coef fxn
-
 emis_fxn <- function(df, meta_df) {
   
   assay_vol <- meta %>% filter(type == "assay_volume")
@@ -35,7 +34,6 @@ emis_fxn <- function(df, meta_df) {
 }
 
 # Net Fluoresence Fxn
-
 calc_net_fluor <- function(df, df_ref, ctrl_homog){
   
   pivoted <- df %>% 
@@ -47,12 +45,21 @@ calc_net_fluor <- function(df, df_ref, ctrl_homog){
 }
 
 # Activity Fxn
+calc_activity <- function(df_net_fluor, ref_df, meta_df){
+  
+  buffer_vol <- meta_df %>% filter(type == "buffer_volume")
+homog_vol <- meta_df %>% filter(type == "homogenate_volume")
+soil_mass <- meta_df %>% filter(type == "soil_mass")
 
+activity_df <- df_net_fluor %>% mutate(activity = ((net_fluor * buffer_vol$value) /
+                                                    ref_df$emis_coef * homog_vol$value *
+                                                    soil_mass$value))
+activity_df
+}
 
 # importing files
 df <- read_csv("PPEE_test_2.csv")
 df1 <- read_csv("PPEE_test_2.csv")
-
 meta <- read_csv("metadata.csv")
 
 
@@ -92,5 +99,30 @@ net_fluor_mub <- calc_net_fluor(live_ctrl_df_mub, df_ref_mub_q, ctrl_homog)
 net_fluor_amc <- calc_net_fluor(live_ctrl_df_amc, df_ref_amc_q, ctrl_homog)
 
 
+# Calculate Activity
+activity_mub <- calc_activity(net_fluor_mub, df_ref_mub_q_e, meta)
+activity_amc <- calc_activity(net_fluor_amc, df_ref_amc_q_e, meta)
+
+# Cleaning up dfs
+activity_mub_clean <- activity_mub %>% select(substrate, time, activity)
+activity_amc_clean <- activity_amc %>% select(substrate, time, activity)
 
 
+# Plot Time MUB
+activity_mub %>% ggplot(aes(x = time, y = activity, fill = substrate, color = substrate)) +
+  geom_point() +
+  ylab(bquote('Activity (nmol'  ~g^-1~h^-1*')')) +
+  xlab(label = "Time (hr)") +
+  ggtitle(label = "Activities of MUB Hydrolyzing Enzymes") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank())
+  
+
+# Plot Time AMC
+activity_amc %>% ggplot(aes(x = time, y = activity, fill = substrate, color = substrate)) +
+  geom_point() +
+  ylab(bquote('Activity (nmol'  ~g^-1~h^-1*')')) +
+  xlab(label = "Time (hr)") +
+  ggtitle(label = "Activities of AMC Hydrolyzing Enzymes") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank())
