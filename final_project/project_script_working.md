@@ -3,9 +3,9 @@
 
 ## Input Files and Load Packages
 
-“PPEE_test_2.csv is the input file containing chromatogram
-data.”metadata.csv” contains ancillary information such as soil mass,
-buffer volume, etc.
+“PPEE_test_2.csv” is the input file containing chromatogram data.
+“metadata.csv” contains ancillary information such as soil mass, buffer
+volume, etc.
 
 ``` r
 library(tidyverse)
