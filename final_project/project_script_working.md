@@ -1,7 +1,13 @@
 project_script_mhs
 ================
 
-Input Files and Load Packages
+# Determination of Extracellular Enzyme Activity from HPLC Analysis
+
+## Input Files and Load Packages
+
+“PPEE_test_2.csv is the input file containing chromatogram
+data.”metadata.csv” contains ancillary information such as soil mass,
+buffer volume, etc.
 
 ``` r
 library(tidyverse)
@@ -11,7 +17,9 @@ df1 <- read_csv("PPEE_test_2.csv")
 meta <- read_csv("metadata.csv")
 ```
 
-Slope Function
+## Slope Function
+
+The below function calculates the slope of the standard curve.
 
 ``` r
 extract_slope <- function(df, substrate) {
@@ -24,7 +32,11 @@ extract_slope <- function(df, substrate) {
 }
 ```
 
-Quench Coefficient Function
+## Quench Coefficient Function
+
+This function calculates the quench coefficient from the slope of the
+standard curve in homogenate and buffer. `pivot_wider` is used to widen
+the dataframe so that the quench coefficient is easily calculated.
 
 ``` r
 quench_fxn <- function(df) {
@@ -38,7 +50,10 @@ quench_fxn <- function(df) {
 }
 ```
 
-Emission Coefficient Function
+## Emission Coefficient Function
+
+The emission coefficient is calculated from the function below. Assay
+volume is called from the meta data file.
 
 ``` r
 emis_fxn <- function(df, meta_df) {
@@ -51,7 +66,11 @@ emis_fxn <- function(df, meta_df) {
 }
 ```
 
-Net Fluorescence Function
+## Net Fluorescence Function
+
+This function calculates net fluorescence using the output df, a
+reference df (that includes quench and emission coefficients), and an
+object corresponding to the value of the homogenate control.
 
 ``` r
 calc_net_fluor <- function(df, df_ref, ctrl_homog){
@@ -64,7 +83,11 @@ calc_net_fluor <- function(df, df_ref, ctrl_homog){
 }
 ```
 
-Activity Function
+## Activity Function
+
+This final activity function uses previously calculated net
+fluorescence, the reference df, and the meta data df to determine the
+activity of each substrate associated enzyme.
 
 ``` r
 calc_activity <- function(df_net_fluor, ref_df, meta_df){
@@ -79,21 +102,21 @@ activity_df
 }
 ```
 
-Separate AMC/MUB Standards in Homogenate
+## Separate AMC/MUB Standards in Homogenate
 
 ``` r
 df_stds_mub <- df %>% filter(substrate == "mub_std") %>% group_by(type, time) %>% nest()
 df_stds_amc <- df %>% filter(substrate == "amc_std") %>% group_by(type, time) %>% nest()
 ```
 
-Add Slope to Standards df
+## Add Slope to Standards df
 
 ``` r
 df_stds_slope_mub <- df_stds_mub %>% mutate(slope = extract_slope(df_stds_mub))
 df_stds_slope_amc <- df_stds_amc %>% mutate(slope = extract_slope(df_stds_amc))
 ```
 
-Add Quench and Emission Coefficients to Reference df
+## Add Quench and Emission Coefficients to Reference df
 
 ``` r
 df_ref_mub_q <- quench_fxn(df_stds_slope_mub)
@@ -103,7 +126,7 @@ df_ref_mub_q_e <- emis_fxn(df_ref_mub_q)
 df_ref_amc_q_e <- emis_fxn(df_ref_amc_q)
 ```
 
-Separate Live and Controls
+## Separate Live and Controls
 
 ``` r
 live_ctrl_df <- df %>% filter(type == "live" | type == "ctrl")
@@ -111,7 +134,7 @@ live_ctrl_df_mub <- live_ctrl_df %>% filter(substrate != "amc_leu")
 live_ctrl_df_amc <- live_ctrl_df %>% filter(substrate == "amc_leu")
 ```
 
-Extract Homogenate Control
+## Extract Homogenate Control
 
 ``` r
 df1_filt <- df1 %>% filter(type == "ctrl_homog")
@@ -121,14 +144,14 @@ wide_df1_filt <- df1_filt %>%
 ctrl_homog <- wide_df1_filt$ctrl_homog
 ```
 
-Add Net Fluorescence to df
+## Add Net Fluorescence to df
 
 ``` r
 net_fluor_mub <- calc_net_fluor(live_ctrl_df_mub, df_ref_mub_q, ctrl_homog)
 net_fluor_amc <- calc_net_fluor(live_ctrl_df_amc, df_ref_amc_q, ctrl_homog)
 ```
 
-Calculate Activity and clean up dfs for plotting
+## Calculate Activity and clean up dfs for plotting
 
 ``` r
 activity_mub <- calc_activity(net_fluor_mub, df_ref_mub_q_e, meta)
@@ -138,7 +161,7 @@ activity_mub_clean <- activity_mub %>% select(substrate, time, activity)
 activity_amc_clean <- activity_amc %>% select(substrate, time, activity)
 ```
 
-MUB Activity Plot
+## MUB Activity Plot
 
 ``` r
 activity_mub %>% ggplot(aes(x = time, y = activity, fill = substrate, color = substrate)) +
@@ -147,12 +170,12 @@ activity_mub %>% ggplot(aes(x = time, y = activity, fill = substrate, color = su
   xlab(label = "Time (hr)") +
   ggtitle(label = "Activities of MUB Hydrolyzing Enzymes") +
   theme_bw() +
-  theme(panel.grid.minor = element_blank())
+  theme(panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5))
 ```
 
 ![](project_script_working_files/figure-gfm/unnamed-chunk-14-1.png)
 
-AMC Activity Plot
+## AMC Activity Plot
 
 ``` r
 activity_amc %>% ggplot(aes(x = time, y = activity, fill = substrate, color = substrate)) +
@@ -161,7 +184,7 @@ activity_amc %>% ggplot(aes(x = time, y = activity, fill = substrate, color = su
   xlab(label = "Time (hr)") +
   ggtitle(label = "Activities of AMC Hydrolyzing Enzymes") +
   theme_bw() +
-  theme(panel.grid.minor = element_blank())
+  theme(panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5))
 ```
 
 ![](project_script_working_files/figure-gfm/unnamed-chunk-15-1.png)
