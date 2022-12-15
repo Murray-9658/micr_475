@@ -1,5 +1,3 @@
-project_script_mhs
-================
 
 # Determination of Extracellular Enzyme Activity from HPLC Analysis
 
